@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shopping list</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="page-header"><div><p class="eyebrow">A little less to remember</p><h1>Shopping list</h1></div><button id="edit-button" class="secondary" hidden>Edit list</button></header>
+    <p id="notice" role="status" hidden></p>
+    <section id="editor" class="card" aria-labelledby="editor-title">
+      <h2 id="editor-title">Start with your list</h2>
+      <p id="editor-help" class="muted">Paste a list from notes or a document, or type one below. Headings and categories stay together.</p>
+      <label for="list-input">Your list</label>
+      <textarea id="list-input" rows="14" aria-describedby="editor-help" placeholder="# Groceries&#10;## Fruit&#10;- Apples&#10;- Bananas&#10;## Pantry&#10;- [x] Rice"></textarea>
+      <div class="actions"><button id="save-button">Save list</button><button id="cancel-button" class="secondary" hidden>Cancel</button></div>
+    </section>
+    <section id="main-list" class="card" aria-labelledby="checklist-title" hidden>
+      <div class="section-header"><h2 id="checklist-title">Your checklist</h2><span id="count" class="muted"></span></div>
+      <p class="muted">Check what you already have at home.</p>
+      <div id="checklist"></div>
+      <button id="generate-button">Generate shopping list</button>
+    </section>
+    <section id="result" class="card" aria-labelledby="result-title" hidden>
+      <div class="section-header"><h2 id="result-title">To buy</h2><button id="copy-button" class="secondary">Copy</button></div>
+      <pre id="result-text" tabindex="0"></pre>
+      <p id="copy-status" class="muted" role="status"></p>
+    </section>
+  </main>
+</body>
+</html>
