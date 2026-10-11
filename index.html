@@ -3,7 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Shopping list</title>
+  <title>Shopping list — Buy only what you need</title>
+  <meta name="description" content="Keep your grocery checklist, mark what you already have, and copy a shopping list of only what you need. No account required.">
+  <meta name="application-name" content="Shopping list">
+  <meta name="theme-color" content="#2f674b">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Shopping list">
+  <meta property="og:title" content="Shopping list — Buy only what you need">
+  <meta property="og:description" content="Keep your grocery checklist, mark what you already have, and copy a shopping list of only what you need. No account required.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <script src="app.js" defer></script>
 </head>
@@ -26,7 +34,7 @@
     </section>
     <section id="result" class="card" aria-labelledby="result-title" hidden>
       <div class="section-header"><h2 id="result-title">To buy</h2><button id="copy-button" class="secondary">Copy</button></div>
-      <pre id="result-text" tabindex="0"></pre>
+      <div id="result-text" tabindex="0"></div>
       <p id="copy-status" class="muted" role="status"></p>
     </section>
   </main>

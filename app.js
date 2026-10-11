@@ -118,7 +118,7 @@ function serialize(list) {
     : `${' '.repeat(entry.indent || 0)}- [${entry.checked ? 'x' : ' '}] ${entry.text}`).join('\n');
 }
 
-function shoppingText(list) {
+function shoppingOutline(list) {
   const included = new Set();
   const stack = [];
   list.forEach((entry, i) => {
@@ -130,10 +130,60 @@ function shoppingText(list) {
       stack.forEach(index => included.add(index));
     }
   });
-  if (!included.size) return EMPTY_MESSAGE;
-  return list.filter((_, i) => included.has(i)).map(entry => entry.type === 'heading'
-    ? `${'#'.repeat(entry.level)} ${entry.text}`
-    : `${' '.repeat(entry.indent || 0)}- ${entry.text}`).join('\n');
+  return list.filter((_, i) => included.has(i));
+}
+
+function shoppingText(list) {
+  const outline = shoppingOutline(list);
+  if (!outline.length) return EMPTY_MESSAGE;
+  const levels = [];
+  return outline.map((entry, i) => {
+    if (entry.type === 'heading') {
+      while (levels.length && levels[levels.length - 1] >= entry.level) levels.pop();
+      const indent = '  '.repeat(levels.length);
+      levels.push(entry.level);
+      return `${i ? '\n' : ''}${indent}${entry.text}:`;
+    }
+    return `${'  '.repeat(levels.length)}- ${entry.text}`;
+  }).join('\n');
+}
+
+function renderShoppingList(list) {
+  const container = $('result-text');
+  container.replaceChildren();
+  const outline = shoppingOutline(list);
+  if (!outline.length) {
+    const message = document.createElement('p');
+    message.textContent = EMPTY_MESSAGE;
+    container.append(message);
+    return;
+  }
+  const levels = [];
+  let group = null;
+  outline.forEach(entry => {
+    if (entry.type === 'heading') {
+      while (levels.length && levels[levels.length - 1] >= entry.level) levels.pop();
+      const heading = document.createElement('div');
+      heading.className = levels.length ? 'shopping-subheading' : 'shopping-heading';
+      heading.setAttribute('role', 'heading');
+      heading.setAttribute('aria-level', levels.length + 3);
+      heading.style.marginLeft = `${Math.min(levels.length, 4) * 12}px`;
+      heading.textContent = entry.text;
+      container.append(heading);
+      levels.push(entry.level);
+      group = null;
+    } else {
+      if (!group) {
+        group = document.createElement('ul');
+        group.className = 'shopping-items';
+        group.style.marginLeft = `${Math.min(Math.max(levels.length - 1, 0), 4) * 12}px`;
+        container.append(group);
+      }
+      const item = document.createElement('li');
+      item.textContent = entry.text;
+      group.append(item);
+    }
+  });
 }
 
 function notify(message) {
@@ -228,13 +278,13 @@ $('edit-button').addEventListener('click', () => {
 });
 $('cancel-button').addEventListener('click', render);
 $('generate-button').addEventListener('click', () => {
-  $('result-text').textContent = shoppingText(entries);
+  renderShoppingList(entries);
   $('copy-status').textContent = '';
   $('result').hidden = false;
   $('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 });
 $('copy-button').addEventListener('click', async () => {
-  const text = $('result-text').textContent;
+  const text = shoppingText(entries);
   try {
     if (!navigator.clipboard?.writeText) throw new Error('Clipboard unavailable');
     await navigator.clipboard.writeText(text);

@@ -25,7 +25,13 @@ button:disabled { opacity: .55; cursor: default; }
 .item input { flex: 0 0 24px; width: 24px; height: 24px; margin: 0; accent-color: #2f674b; cursor: pointer; }
 .item.checked span { text-decoration: line-through; color: #829086; }
 #generate-button { margin-top: 26px; }
-pre { font: 16px/1.7 system-ui, sans-serif; white-space: pre-wrap; overflow-wrap: anywhere; background: #f5f7f3; border-radius: 8px; padding: 18px; }
+#result-text { font: 16px/1.7 system-ui, sans-serif; overflow-wrap: anywhere; background: #f5f7f3; border-radius: 8px; padding: 20px; margin-top: 18px; }
+#result-text > :first-child { margin-top: 0; }
+#result-text > :last-child { margin-bottom: 0; }
+.shopping-heading { font-size: 1.1rem; font-weight: 700; margin-top: 22px; }
+.shopping-subheading { font-weight: 600; margin-top: 16px; color: #496451; }
+.shopping-items { margin-top: 6px; margin-bottom: 14px; padding-left: 24px; }
+.shopping-items li { padding: 3px 0; white-space: pre-wrap; }
 #notice { background: #fff4d8; border-radius: 8px; padding: 12px 16px; }
 #copy-status:empty { display: none; }
 [hidden] { display: none !important; }
